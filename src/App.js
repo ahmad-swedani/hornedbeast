@@ -4,10 +4,7 @@ import Header from './components/Header';
 import Main from './components/Main';
 import horneddata from './data/horneddata.json';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-
-
+import SelectedBeast from './components/SelectedBeast';
 
 class App extends React.Component {
 
@@ -15,16 +12,26 @@ class App extends React.Component {
     super(props);
     this.state = {
       horneddata:horneddata,
+      selectedHorned:{},
       displayHorned:false
     }
   }
+  
+  displayCardAsModel =(clickedHornedTitle) => {
+    const selectedHorned = horneddata.find(element=>element.title === clickedHornedTitle)
 
+    this.setState({
+      selectedHorned:selectedHorned,
+      displayHorned:true
+    })
+
+  }
   handleClose =()=>{
     this.setState({
       displayHorned:false
     })
   }
-
+  
   render() {
   
     return (
@@ -34,12 +41,16 @@ class App extends React.Component {
           horneddata={this.state.horneddata}
           displayCardAsModel={this.displayCardAsModel}
           />
-
+        <SelectedBeast
+          displayHornedObject={this.state.selectedHorned}
+          showSelectedHorned={this.state.displayHorned}
+          handleClose={this.handleClose}
+          />
           <Footer/>
       </div>
     )
    
   }
-}
+  }
 
 export default App;
